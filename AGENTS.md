@@ -3,10 +3,12 @@
 Agent skills for building native macOS apps. Installed as a Claude Code and
 Codex plugin from `.claude-plugin/`, or through `npx skills add`.
 `AGENTS.md` at the root is a copy of this file (`.claude/CLAUDE.md`);
-keep them identical.
+keep them identical (`cp .claude/CLAUDE.md AGENTS.md`).
 
 ## Layout
 
+- `origin` is `daveebbelaar/bama`, an upstream project. Open a pull request
+  there. Do not push to it directly.
 - `skills/<stage>/<name>/SKILL.md`, stages in pipeline order: `start`, `plan`,
   `code`, `design`, `ship`.
 - References sit next to `SKILL.md` (`recipes.md`, `patterns.md`) and are
@@ -15,9 +17,23 @@ keep them identical.
   description. A user-invoked skill also sets
   `policy.allow_implicit_invocation: false`.
 - `.claude-plugin/plugin.json` lists every shipped skill in `skills`.
+- `docs/assets/`: README banner images only. No guidance lives in `docs/`.
 - `specs/<app>.md`: build plans for small apps, taken from Onyx. Each has
   Brief, How it works, Stories, Gotchas, and a "Done when" line, in that
   order. `specs/README.md` lists them.
+
+## Gotchas
+
+- `skills/start/new-mac-app/template/CLAUDE.md` ships inside generated apps.
+  It is app guidance, not guidance for this repo.
+- `.agents/`, `.claude/skills/`, and `skills-lock.json` come from
+  `npx skills add` and hold installed copies. Git ignores them. Edit
+  `skills/`, not these.
+- `scripts/link-skills.sh` symlinks every skill in `skills/` into
+  `~/.claude/skills` and `~/.agents/skills`, so edits show up live while you
+  test. Run it from anywhere: `scripts/link-skills.sh`.
+- There is no build or test suite here. `claude plugin validate . --strict`
+  is the only check.
 
 ## Writing skills
 
@@ -40,8 +56,10 @@ Follow Matt Pocock's `writing-for-agents` rules:
 ## Adding a skill
 
 1. Create `skills/<stage>/<name>/SKILL.md` and `agents/openai.yaml`.
-2. Add it to `plugin.json` `skills`, the README table, and the router
-   (`skills/start/bama/SKILL.md`).
+2. Add it to `plugin.json` `skills`, the README table and its "N skills"
+   badge, and the router (`skills/start/bama/SKILL.md`). If the pitch
+   changed, update the description and keywords in
+   `.claude-plugin/marketplace.json` too.
 3. Run `claude plugin validate . --strict`.
 
 ## Releasing

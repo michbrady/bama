@@ -1,2 +1,10 @@
 .DS_Store
 .build/
+
+# Installed by `npx skills add`
+.agents/
+.claude/skills/
+skills-lock.json
+
+# Stray downloads
+archive-*/
